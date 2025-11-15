@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block title %}Enrollments{% endblock %}
+
+{% block content %}
+<style>
+    .enrollments-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .search-form {
+        display: flex;
+        gap: 0.75rem;
+        flex: 1;
+        max-width: 400px;
+    }
+    
+    .search-input {
+        border: 2px solid #e3e6f0;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #ffffff;
+        flex: 1;
+    }
+    
+    .search-input:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        outline: none;
+    }
+    
+    .btn-search {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+    
+    .btn-search:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+    }
+    
+    .btn-assign {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+    }
+    
+    .btn-assign:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+    }
+    
+    .enrollments-table {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        border: 1px solid var(--gold);
+        margin-bottom: 2rem;
+    }
+    
+    .enrollments-table thead {
+        background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+    }
+    
+    .enrollments-table th {
+        color: var(--gold);
+        font-weight: 600;
+        padding: 1rem;
+        border: none;
+    }
+    
+    .enrollments-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #e3e6f0;
+        vertical-align: middle;
+    }
+    
+    .enrollments-table tbody tr:hover {
+        background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 20%);
+    }
+    
+    .badge-completed {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+    
+    .badge-progress {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        color: var(--black);
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+    }
+    
+    .btn-delete {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .btn-delete:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #c82333, #bd2130);
+        color: white;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .page-link {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        color: var(--black);
+        padding: 8px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .page-link:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+    }
+    
+    .page-item.disabled .page-link {
+        background: #e9ecef;
+        color: #6c757d;
+        transform: none;
+    }
+</style>
+
+<div class="container">
+    <!-- Header Section -->
+    <div class="enrollments-header">
+        <h1 class="page-title">Enrollments</h1>
+        
+        <form method="GET" class="search-form">
+            <input type="text" name="q" class="search-input" placeholder="Search by student or course..." value="{{ q }}">
+            <button type="submit" class="btn-search">Search</button>
+        </form>
+        
+        <a href="{% url 'enrollment_create' %}" class="btn-assign">
+            Assign Course
+        </a>
+    </div>
+
+    <!-- Enrollments Table -->
+    <div class="enrollments-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Course</th>
+                    <th>Status</th>
+                    <th width="120">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for e in enrollments %}
+                <tr>
+                    <td><strong>{{ e.student.user.username }}</strong></td>
+                    <td>{{ e.course.title }}</td>
+                    <td>
+                        {% if e.completed %}
+                            <span class="badge-completed">Completed</span>
+                        {% else %}
+                            <span class="badge-progress">In Progress</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'enrollment_delete' e.id %}" class="btn-delete">Delete</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center py-4 text-muted">
+                        No enrollments found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination">
+            {% if enrollments.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ enrollments.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">Previous</a>
+                </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">{{ enrollments.number }} / {{ enrollments.paginator.num_pages }}</span>
+            </li>
+            {% if enrollments.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ enrollments.next_page_number }}{% if q %}&q={{ q }}{% endif %}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

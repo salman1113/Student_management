@@ -1,0 +1,482 @@
+{% extends "base.html" %}
+{% block title %}Add Student{% endblock %}
+
+{% block content %}
+<style>
+    .add-student-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 2px solid var(--gold);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    .add-student-card .card-body {
+        padding: 3rem;
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+        color: var(--gold);
+        text-align: center;
+        padding: 2rem;
+        border-bottom: 3px solid var(--gold);
+        margin-bottom: 2rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control, .form-select, .form-file {
+        border: 2px solid #e3e6f0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #ffffff;
+        width: 100%;
+    }
+    
+    .form-control:focus, .form-select:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        background: #ffffff;
+        outline: none;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .btn-create {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+    
+    .btn-create:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+    }
+    
+    .btn-cancel {
+        background: transparent;
+        border: 2px solid var(--dark-gray);
+        color: var(--dark-gray);
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .btn-cancel:hover {
+        background: var(--dark-gray);
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+    
+    .add-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .add-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+    
+    .section-title {
+        color: var(--black);
+        font-weight: 600;
+        font-size: 1.3rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--gold);
+        position: relative;
+    }
+    
+    .section-title::before {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 60px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--gold), var(--dark-gold));
+    }
+    
+    .profile-picture-section {
+        background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+        border: 2px dashed var(--gold);
+        border-radius: 16px;
+        padding: 2rem;
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .default-profile-icon {
+        font-size: 4rem;
+        color: var(--gold);
+        margin-bottom: 1rem;
+    }
+    
+    .file-upload-label {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        color: var(--black);
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+    
+    .file-upload-label:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+    }
+    
+    .form-text {
+        color: #6c757d;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+    
+    .error-message {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        font-weight: 500;
+    }
+    
+    .password-requirements {
+        background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+        border: 1px solid var(--gold);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .password-requirements h6 {
+        color: var(--dark-gold);
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .requirement-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+    }
+    
+    .requirement-item i {
+        color: var(--gold);
+        margin-right: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Animation */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .add-student-card {
+        animation: slideInUp 0.6s ease-out;
+    }
+</style>
+
+<div class="container">
+    <div class="card add-student-card">
+        <!-- Card Header -->
+        <div class="card-header">
+            <h1 class="add-title">Add New Student</h1>
+            <p class="add-subtitle">Create a new student account</p>
+        </div>
+
+        <div class="card-body p-4">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                <!-- User Information Section -->
+                <h4 class="section-title">
+                    <i class="fas fa-user me-2"></i>Account Information
+                </h4>
+                
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-user me-1"></i>Username
+                            </label>
+                            {{ user_form.username }}
+                            {% if user_form.username.errors %}
+                                <div class="error-message">{{ user_form.username.errors.0 }}</div>
+                            {% endif %}
+                            <div class="form-text">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-envelope me-1"></i>Email Address
+                            </label>
+                            {{ user_form.email }}
+                            {% if user_form.email.errors %}
+                                <div class="error-message">{{ user_form.email.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-signature me-1"></i>First Name
+                            </label>
+                            {{ user_form.first_name }}
+                            {% if user_form.first_name.errors %}
+                                <div class="error-message">{{ user_form.first_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-signature me-1"></i>Last Name
+                            </label>
+                            {{ user_form.last_name }}
+                            {% if user_form.last_name.errors %}
+                                <div class="error-message">{{ user_form.last_name.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Password Section -->
+                <div class="password-requirements">
+                    <h6>
+                        <i class="fas fa-shield-alt"></i>Password Requirements
+                    </h6>
+                    <div class="requirement-item">
+                        <i class="fas fa-circle"></i>
+                        At least 8 characters long
+                    </div>
+                    <div class="requirement-item">
+                        <i class="fas fa-circle"></i>
+                        Include uppercase and lowercase letters
+                    </div>
+                    <div class="requirement-item">
+                        <i class="fas fa-circle"></i>
+                        Contain at least one number
+                    </div>
+                    <div class="requirement-item">
+                        <i class="fas fa-circle"></i>
+                        Include special characters (e.g., !@#$%^&*)
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-lock me-1"></i>Password
+                            </label>
+                            {{ user_form.password1 }}
+                            {% if user_form.password1.errors %}
+                                <div class="error-message">{{ user_form.password1.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-lock me-1"></i>Confirm Password
+                            </label>
+                            {{ user_form.password2 }}
+                            {% if user_form.password2.errors %}
+                                <div class="error-message">{{ user_form.password2.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="my-4">
+
+                <!-- Profile Information Section -->
+                <h4 class="section-title">
+                    <i class="fas fa-id-card me-2"></i>Academic Profile
+                </h4>
+
+                <!-- Profile Picture Upload -->
+                <div class="profile-picture-section">
+                    <i class="fas fa-user-circle default-profile-icon"></i>
+                    <p class="text-muted mb-3">Add a profile picture (optional)</p>
+                    
+                    <label for="id_profile_picture" class="file-upload-label">
+                        <i class="fas fa-camera me-2"></i>Choose Profile Picture
+                    </label>
+                    {{ profile_form.profile_picture }}
+                    {% if profile_form.profile_picture.errors %}
+                        <div class="error-message">{{ profile_form.profile_picture.errors.0 }}</div>
+                    {% endif %}
+                    <div class="form-text">Recommended: Square image, JPG or PNG, max 2MB</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-hashtag me-1"></i>Roll Number
+                            </label>
+                            {{ profile_form.roll_number }}
+                            {% if profile_form.roll_number.errors %}
+                                <div class="error-message">{{ profile_form.roll_number.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-building me-1"></i>Department
+                            </label>
+                            {{ profile_form.department }}
+                            {% if profile_form.department.errors %}
+                                <div class="error-message">{{ profile_form.department.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-calendar-alt me-1"></i>Year of Admission
+                            </label>
+                            {{ profile_form.year_of_admission }}
+                            {% if profile_form.year_of_admission.errors %}
+                                <div class="error-message">{{ profile_form.year_of_admission.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Additional fields can be added here -->
+                    </div>
+                </div>
+
+                <!-- Additional Optional Fields -->
+                {% if profile_form.phone or profile_form.bio %}
+                <div class="row">
+                    {% if profile_form.phone %}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-phone me-1"></i>Phone Number
+                            </label>
+                            {{ profile_form.phone }}
+                            {% if profile_form.phone.errors %}
+                                <div class="error-message">{{ profile_form.phone.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    {% if profile_form.bio %}
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">
+                                <i class="fas fa-file-alt me-1"></i>Bio
+                            </label>
+                            {{ profile_form.bio }}
+                            {% if profile_form.bio.errors %}
+                                <div class="error-message">{{ profile_form.bio.errors.0 }}</div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Action Buttons -->
+                <div class="d-flex gap-3 mt-4">
+                    <button type="submit" class="btn btn-create">
+                        <i class="fas fa-user-plus me-2"></i>Create Student
+                    </button>
+                    <a href="{% url 'student_list' %}" class="btn btn-cancel">
+                        <i class="fas fa-times me-2"></i>Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Enhance file input
+    document.getElementById('id_profile_picture')?.addEventListener('change', function(e) {
+        const fileName = e.target.files[0]?.name || 'No file chosen';
+        const label = document.querySelector('.file-upload-label');
+        if (label) {
+            label.innerHTML = `<i class="fas fa-camera me-2"></i>${fileName}`;
+        }
+    });
+
+    // Add form control classes to all form fields
+    document.addEventListener('DOMContentLoaded', function() {
+        const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="password"], input[type="number"]');
+        const selects = document.querySelectorAll('select');
+        const textareas = document.querySelectorAll('textarea');
+        
+        textInputs.forEach(input => {
+            input.classList.add('form-control');
+        });
+        
+        selects.forEach(select => {
+            select.classList.add('form-select');
+        });
+        
+        textareas.forEach(textarea => {
+            textarea.classList.add('form-control');
+        });
+    });
+</script>
+
+{% endblock %}

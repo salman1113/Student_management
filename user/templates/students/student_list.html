@@ -1,0 +1,354 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+
+{% block content %}
+<style>
+    .students-header {
+        display: flex;
+        justify-content: between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .search-form {
+        display: flex;
+        gap: 0.75rem;
+        flex: 1;
+        max-width: 400px;
+    }
+    
+    .search-input {
+        border: 2px solid #e3e6f0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #ffffff;
+        flex: 1;
+    }
+    
+    .search-input:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        outline: none;
+    }
+    
+    .btn-search {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 12px 24px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        white-space: nowrap;
+    }
+    
+    .btn-search:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+    }
+    
+    .btn-add-student {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 12px 24px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+    }
+    
+    .btn-add-student:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+    }
+    
+    .students-table {
+        background: white;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 2px solid var(--gold);
+        margin-bottom: 2rem;
+    }
+    
+    .students-table table {
+        margin-bottom: 0;
+        border-collapse: collapse;
+    }
+    
+    .students-table thead {
+        background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+    }
+    
+    .students-table th {
+        color: var(--gold);
+        font-weight: 600;
+        padding: 1.25rem 1rem;
+        border: none;
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .students-table td {
+        padding: 1.25rem 1rem;
+        border-bottom: 1px solid #e3e6f0;
+        vertical-align: middle;
+    }
+    
+    .students-table tbody tr {
+        transition: all 0.3s ease;
+    }
+    
+    .students-table tbody tr:hover {
+        background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.1);
+    }
+    
+    .students-table tbody tr:last-child td {
+        border-bottom: none;
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+    
+    .btn-action {
+        padding: 6px 12px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        white-space: nowrap;
+    }
+    
+    .btn-view {
+        background: linear-gradient(135deg, #4da3ff, #2a4cb3);
+        color: white;
+    }
+    
+    .btn-edit {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        color: var(--black);
+    }
+    
+    .btn-delete {
+        background: linear-gradient(135deg, #ff6b6b, #dc3545);
+        color: white;
+    }
+    
+    .btn-action:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        color: white;
+    }
+    
+    .btn-view:hover {
+        background: linear-gradient(135deg, #2a4cb3, #1e3a8a);
+    }
+    
+    .btn-edit:hover {
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+    }
+    
+    .btn-delete:hover {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+        flex-wrap: wrap;
+    }
+    
+    .pagination a {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        color: var(--black);
+        padding: 8px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .pagination a:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+    }
+    
+    .pagination span {
+        color: var(--dark-gray);
+        font-weight: 600;
+        padding: 8px 16px;
+        background: #f8f9fa;
+        border-radius: 8px;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding: 3rem;
+        color: var(--dark-gray);
+    }
+    
+    .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #e3e6f0;
+    }
+    
+    /* Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .students-table tbody tr {
+        animation: fadeInUp 0.5s ease-out;
+    }
+    
+    .students-table tbody tr:nth-child(even) {
+        animation-delay: 0.1s;
+    }
+</style>
+
+<div class="container">
+
+    <!-- Header Section -->
+    <div class="students-header">
+        <h1 class="page-title">Students</h1>
+        
+        <form method="GET" class="search-form">
+            <input type="text" name="q" value="{{ search }}" placeholder="Search students..." class="search-input">
+            <button type="submit" class="btn-search">
+                <i class="fas fa-search me-1"></i>Search
+            </button>
+        </form>
+        
+        <a href="{% url 'student_create' %}" class="btn-add-student">
+            <i class="fas fa-user-plus me-1"></i>Add Student
+        </a>
+    </div>
+
+    <!-- Students Table -->
+    <div class="students-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Roll No</th>
+                    <th>Name</th>
+                    <th>Department</th>
+                    <th>Email</th>
+                    <th width="220">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for s in students %}
+                <tr>
+                    <td><strong>{{ s.roll_number }}</strong></td>
+                    <td>{{ s.user.get_full_name|default:s.user.username }}</td>
+                    <td>
+                        <span class="badge bg-light text-dark">{{ s.department }}</span>
+                    </td>
+                    <td>{{ s.user.email }}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="{% url 'student_detail' s.id %}" class="btn-action btn-view">
+                                <i class="fas fa-eye"></i>View
+                            </a>
+                            <a href="{% url 'student_edit' s.id %}" class="btn-action btn-edit">
+                                <i class="fas fa-edit"></i>Edit
+                            </a>
+                            <a href="{% url 'student_delete' s.id %}" class="btn-action btn-delete">
+                                <i class="fas fa-trash"></i>Delete
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5">
+                        <div class="empty-state">
+                            <i class="fas fa-users"></i>
+                            <h4>No Students Found</h4>
+                            <p>No students match your search criteria.</p>
+                            {% if search %}
+                                <a href="?" class="btn-add-student mt-2">
+                                    <i class="fas fa-times me-1"></i>Clear Search
+                                </a>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    {% if students.paginator.num_pages > 1 %}
+    <div class="pagination">
+        {% if students.has_previous %}
+            <a href="?page={{ students.previous_page_number }}{% if search %}&q={{ search }}{% endif %}">
+                <i class="fas fa-chevron-left me-1"></i>Previous
+            </a>
+        {% endif %}
+
+        <span>Page {{ students.number }} of {{ students.paginator.num_pages }}</span>
+
+        {% if students.has_next %}
+            <a href="?page={{ students.next_page_number }}{% if search %}&q={{ search }}{% endif %}">
+                Next<i class="fas fa-chevron-right ms-1"></i>
+            </a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+</div>
+
+{% endblock %}

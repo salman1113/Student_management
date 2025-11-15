@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Register | Student Management{% endblock %}
+
+{% block content %}
+<style>
+    .register-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 2px solid var(--gold);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    .register-card .card-body {
+        padding: 3rem;
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+        color: var(--gold);
+        text-align: center;
+        padding: 2rem;
+        border-bottom: 3px solid var(--gold);
+        margin-bottom: 2rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        border: 2px solid #e3e6f0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #ffffff;
+    }
+    
+    .form-control:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        background: #ffffff;
+    }
+    
+    .btn-register {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+    
+    .btn-register:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+    }
+    
+    .register-link {
+        color: var(--dark-gold);
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .register-link:hover {
+        color: var(--gold);
+        text-decoration: underline;
+    }
+    
+    .text-danger {
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+    
+    .register-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .register-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+    
+    .password-requirements {
+        background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%);
+        border: 1px solid var(--gold);
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .password-requirements h6 {
+        color: var(--dark-gold);
+        font-weight: 600;
+        margin-bottom: 0.75rem;
+    }
+    
+    .requirement-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+        color: var(--dark-gray);
+    }
+    
+    .requirement-item i {
+        color: var(--gold);
+        margin-right: 0.5rem;
+        font-size: 0.8rem;
+    }
+    
+    /* Animation */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .register-card {
+        animation: slideInUp 0.6s ease-out;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+
+        <div class="card shadow-sm register-card">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h1 class="register-title">Join Us</h1>
+                <p class="register-subtitle">Create your student account</p>
+            </div>
+
+            <div class="card-body p-4">
+
+                <!-- Password Requirements -->
+                <div class="password-requirements">
+                    <h6><i class="fas fa-shield-alt me-2"></i>Password Requirements</h6>
+                    <div class="requirement-item">
+                        <i class="fas fa-circle"></i>
+                        At least 8 characters long
+                    </div>
+                    <div class="requirement-item">
+                        <i class="fas fa-circle"></i>
+                        Include uppercase and lowercase letters
+                    </div>
+                    <div class="requirement-item">
+                        <i class="fas fa-circle"></i>
+                        Contain at least one number
+                    </div>
+                </div>
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <!-- Username -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-user me-2"></i>Username
+                        </label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <small class="text-danger">{{ form.username.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Email -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-envelope me-2"></i>Email address
+                        </label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <small class="text-danger">{{ form.email.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-lock me-2"></i>Password
+                        </label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <small class="text-danger">{{ form.password1.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-lock me-2"></i>Confirm Password
+                        </label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <small class="text-danger">{{ form.password2.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Submit -->
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-register py-3 fw-semibold">
+                            <i class="fas fa-user-plus me-2"></i>Create Account
+                        </button>
+                    </div>
+                </form>
+
+                <p class="text-center mt-4 mb-0 text-muted">
+                    Already have an account?
+                    <a href="{% url 'login' %}" class="register-link">Sign In Here</a>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,255 @@
+{% extends "base.html" %}
+{% block title %}Courses{% endblock %}
+
+{% block content %}
+<style>
+    .courses-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+    
+    .page-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .search-form {
+        display: flex;
+        gap: 0.75rem;
+        flex: 1;
+        max-width: 400px;
+    }
+    
+    .search-input {
+        border: 2px solid #e3e6f0;
+        border-radius: 10px;
+        padding: 10px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #ffffff;
+        flex: 1;
+    }
+    
+    .search-input:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        outline: none;
+    }
+    
+    .btn-search {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        white-space: nowrap;
+    }
+    
+    .btn-search:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+    }
+    
+    .btn-add-course {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+    }
+    
+    .btn-add-course:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+    }
+    
+    .courses-table {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        border: 1px solid var(--gold);
+        margin-bottom: 2rem;
+    }
+    
+    .courses-table thead {
+        background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+    }
+    
+    .courses-table th {
+        color: var(--gold);
+        font-weight: 600;
+        padding: 1rem;
+        border: none;
+    }
+    
+    .courses-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #e3e6f0;
+        vertical-align: middle;
+    }
+    
+    .courses-table tbody tr:hover {
+        background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 20%);
+    }
+    
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+    }
+    
+    .btn-edit {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        color: var(--black);
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .btn-edit:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+    }
+    
+    .btn-delete {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-weight: 600;
+        font-size: 0.875rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .btn-delete:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #c82333, #bd2130);
+        color: white;
+    }
+    
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+    
+    .page-link {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        color: var(--black);
+        padding: 8px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .page-link:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+    }
+    
+    .page-item.disabled .page-link {
+        background: #e9ecef;
+        color: #6c757d;
+        transform: none;
+    }
+</style>
+
+<div class="container">
+    <!-- Header Section -->
+    <div class="courses-header">
+        <h1 class="page-title">Courses</h1>
+        
+        <form method="GET" class="search-form">
+            <input type="text" name="q" class="search-input" placeholder="Search courses..." value="{{ q }}">
+            <button type="submit" class="btn-search">Search</button>
+        </form>
+        
+        <a href="{% url 'course_create' %}" class="btn-add-course">
+            Add Course
+        </a>
+    </div>
+
+    <!-- Courses Table -->
+    <div class="courses-table">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th width="150">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in courses %}
+                <tr>
+                    <td><strong>{{ c.title }}</strong></td>
+                    <td>{{ c.description|truncatewords:15 }}</td>
+                    <td>
+                        <div class="action-buttons">
+                            <a href="{% url 'course_edit' c.id %}" class="btn-edit">Edit</a>
+                            <a href="{% url 'course_delete' c.id %}" class="btn-delete">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="text-center py-4 text-muted">
+                        No courses found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Pagination -->
+    <nav>
+        <ul class="pagination">
+            {% if courses.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ courses.previous_page_number }}{% if q %}&q={{ q }}{% endif %}">Previous</a>
+                </li>
+            {% endif %}
+            <li class="page-item disabled">
+                <span class="page-link">{{ courses.number }} / {{ courses.paginator.num_pages }}</span>
+            </li>
+            {% if courses.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ courses.next_page_number }}{% if q %}&q={{ q }}{% endif %}">Next</a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

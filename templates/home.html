@@ -1,0 +1,297 @@
+{% extends "base.html" %}
+{% block title %}Home | Student Management{% endblock %}
+
+{% block content %}
+
+<style>
+    .hero-section {
+        padding: 100px 20px;
+        background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 50%, #2d2d2d 100%);
+        color: white;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        position: relative;
+        overflow: hidden;
+        border: 2px solid var(--gold);
+    }
+
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .btn-modern {
+        border-radius: 12px;
+        padding: 14px 36px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+    }
+
+    .btn-modern:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    }
+
+    .btn-gold {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        color: var(--black);
+        border-color: var(--gold);
+        font-weight: 600;
+    }
+
+    .btn-gold:hover {
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+        border-color: #ffdf33;
+    }
+
+    .btn-outline-gold {
+        background: transparent;
+        color: var(--gold);
+        border: 2px solid var(--gold);
+        font-weight: 600;
+    }
+
+    .btn-outline-gold:hover {
+        background: var(--gold);
+        color: var(--black);
+        transform: translateY(-3px);
+    }
+
+    .feature-card {
+        border-radius: 16px;
+        padding: 40px 30px;
+        background: #ffffff;
+        border: 1px solid #e3e6f0;
+        transition: all 0.3s ease;
+        height: 100%;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    }
+
+    .feature-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--gold), var(--dark-gold));
+    }
+
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        border-color: var(--gold);
+    }
+
+    .feature-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+        display: block;
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .section-title {
+        color: var(--black);
+        font-weight: 700;
+        margin-bottom: 3rem;
+        position: relative;
+        font-size: 2.5rem;
+    }
+
+    .section-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: linear-gradient(90deg, var(--gold), var(--dark-gold));
+        border-radius: 2px;
+    }
+
+    .stats-section {
+        background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+        border-radius: 20px;
+        padding: 60px 40px;
+        margin-top: 4rem;
+        border: 2px solid var(--gold);
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .stats-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFD700' fill-opacity='0.05'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    }
+
+    .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: block;
+        line-height: 1;
+        position: relative;
+        z-index: 2;
+    }
+
+    .stat-label {
+        color: var(--gold);
+        font-weight: 600;
+        font-size: 1.1rem;
+        position: relative;
+        z-index: 2;
+    }
+
+    .accent-text {
+        color: var(--gold);
+        font-weight: 600;
+    }
+
+    .lead {
+        font-size: 1.25rem;
+        color: rgba(255,255,255,0.9);
+    }
+
+    /* Animation for hero section */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-content h1,
+    .hero-content p,
+    .hero-content .btn {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .hero-content p {
+        animation-delay: 0.2s;
+    }
+
+    .hero-content .btn {
+        animation-delay: 0.4s;
+    }
+</style>
+
+<!-- HERO SECTION -->
+<div class="hero-section text-center mb-5">
+    <div class="hero-content">
+        <h1 class="fw-bold display-4 mb-4">Student Management System</h1>
+        <p class="lead fs-4 mb-4">
+            Streamline academic administration with our modern, <span class="accent-text">premium platform</span>
+        </p>
+
+        {% if user.is_authenticated %}
+            {% if user.is_superuser or user.role == "admin" %}
+                <a href="{% url 'admin_dashboard' %}" class="btn btn-gold btn-modern me-3">
+                    <i class="fas fa-tachometer-alt me-2"></i>Admin Dashboard
+                </a>
+            {% else %}
+                <a href="{% url 'student_dashboard' %}" class="btn btn-gold btn-modern me-3">
+                    <i class="fas fa-user-graduate me-2"></i>My Dashboard
+                </a>
+            {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-gold btn-modern me-3">
+                <i class="fas fa-sign-in-alt me-2"></i>Login
+            </a>
+            <a href="{% url 'register' %}" class="btn btn-outline-gold btn-modern">
+                <i class="fas fa-user-plus me-2"></i>Register
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- FEATURES SECTION -->
+<h2 class="section-title text-center">Platform Features</h2>
+
+<div class="row g-4 mb-5">
+    <div class="col-md-4">
+        <div class="feature-card">
+            <i class="fas fa-users feature-icon"></i>
+            <h4 class="fw-bold mb-3">Student Management</h4>
+            <p class="text-muted mb-0">
+                Comprehensive student profiles with academic tracking, attendance monitoring, and performance analytics in one centralized system.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="feature-card">
+            <i class="fas fa-book-open feature-icon"></i>
+            <h4 class="fw-bold mb-3">Course Administration</h4>
+            <p class="text-muted mb-0">
+                Create and manage courses, assign instructors, track enrollments, and monitor academic progress seamlessly.
+            </p>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="feature-card">
+            <i class="fas fa-chart-line feature-icon"></i>
+            <h4 class="fw-bold mb-3">Advanced Analytics</h4>
+            <p class="text-muted mb-0">
+                Gain valuable insights with interactive dashboards, detailed reports, and real-time academic performance metrics.
+            </p>
+        </div>
+    </div>
+</div>
+
+<!-- STATS SECTION -->
+<div class="stats-section text-center">
+    <div class="row g-4">
+        <div class="col-md-3">
+            <span class="stat-number">500+</span>
+            <div class="stat-label">Students</div>
+        </div>
+        <div class="col-md-3">
+            <span class="stat-number">50+</span>
+            <div class="stat-label">Courses</div>
+        </div>
+        <div class="col-md-3">
+            <span class="stat-number">99%</span>
+            <div class="stat-label">Satisfaction</div>
+        </div>
+        <div class="col-md-3">
+            <span class="stat-number">24/7</span>
+            <div class="stat-label">Support</div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

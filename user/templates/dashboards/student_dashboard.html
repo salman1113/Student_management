@@ -1,0 +1,302 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}My Dashboard{% endblock %}
+
+{% block content %}
+<style>
+    .dashboard-card {
+        border: none;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        border-top: 4px solid var(--gold);
+        overflow: hidden;
+    }
+    
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+    }
+    
+    .profile-card {
+        border: 2px solid var(--gold);
+        border-radius: 16px;
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    .btn-edit-profile {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 10px 24px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+    }
+    
+    .btn-edit-profile:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+    }
+    
+    .btn-mark-complete {
+        background: transparent;
+        border: 2px solid var(--gold);
+        color: var(--gold);
+        font-weight: 600;
+        padding: 6px 16px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        font-size: 0.9rem;
+    }
+    
+    .btn-mark-complete:hover {
+        background: var(--gold);
+        color: var(--black);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(255, 215, 0, 0.3);
+    }
+    
+    .dashboard-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0;
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .card-title {
+        color: var(--black);
+        font-weight: 600;
+        font-size: 1.4rem;
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    
+    .card-title::after {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 50px;
+        height: 3px;
+        background: linear-gradient(90deg, var(--gold), var(--dark-gold));
+        border-radius: 2px;
+    }
+    
+    .profile-img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border: 4px solid var(--gold);
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .profile-info p {
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+    }
+    
+    .profile-info strong {
+        color: var(--dark-gray);
+        min-width: 140px;
+        display: inline-block;
+    }
+    
+    .course-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+        border-left: 4px solid var(--gold);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    .course-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        border-left: 4px solid var(--dark-gold);
+    }
+    
+    .progress {
+        height: 10px;
+        border-radius: 10px;
+        background-color: #e9ecef;
+        overflow: hidden;
+    }
+    
+    .progress-bar {
+        background: linear-gradient(90deg, var(--gold), var(--dark-gold));
+        border-radius: 10px;
+        transition: width 0.6s ease;
+    }
+    
+    .badge-completed {
+        background: linear-gradient(135deg, #28a745, #20c997);
+        color: white;
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 8px;
+    }
+    
+    .badge-progress {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        color: var(--black);
+        font-weight: 600;
+        padding: 6px 12px;
+        border-radius: 8px;
+    }
+    
+    .welcome-text {
+        color: var(--dark-gray);
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+    
+    /* Animation */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .dashboard-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .course-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    .course-card:nth-child(odd) {
+        animation-delay: 0.1s;
+    }
+    
+    .course-card:nth-child(even) {
+        animation-delay: 0.2s;
+    }
+</style>
+
+<div class="container">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <div>
+            <h1 class="dashboard-title">Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
+            <p class="welcome-text">Here's your academic overview</p>
+        </div>
+        <a href="{% url 'edit_my_profile' %}" class="btn btn-edit-profile">
+            <i class="fas fa-edit me-2"></i>Edit Profile
+        </a>
+    </div>
+
+    <!-- PROFILE SECTION -->
+    <div class="card shadow-sm profile-card mb-5">
+        <div class="card-body p-4">
+            <h3 class="card-title">
+                <i class="fas fa-user-circle me-2" style="color: var(--gold);"></i>
+                Profile Information
+            </h3>
+
+            <div class="row align-items-center">
+                <div class="col-md-4 text-center">
+                    {% if profile.profile_picture %}
+                        <img src="{{ profile.profile_picture.url }}" class="profile-img mb-3" alt="Profile Picture">
+                    {% else %}
+                        <img src="{% static 'img/default_profile.png' %}" class="profile-img mb-3" alt="Profile Picture">
+                    {% endif %}
+                </div>
+
+                <div class="col-md-8 profile-info">
+                    <p><strong>Name:</strong> {{ request.user.first_name }} {{ request.user.last_name }}</p>
+                    <p><strong>Roll No:</strong> {{ profile.roll_number }}</p>
+                    <p><strong>Department:</strong> {{ profile.department }}</p>
+                    <p><strong>Year of Admission:</strong> {{ profile.year_of_admission }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COURSES SECTION -->
+    <div class="card shadow-sm dashboard-card">
+        <div class="card-body p-4">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h3 class="card-title">
+                    <i class="fas fa-book-open me-2" style="color: var(--gold);"></i>
+                    My Courses
+                </h3>
+            </div>
+
+            {% if enrollments %}
+                <div class="row g-4">
+                    {% for e in enrollments %}
+                        <div class="col-md-6">
+                            <div class="card course-card h-100">
+                                <div class="card-body">
+                                    <h5 class="fw-bold mb-3">{{ e.course.title }}</h5>
+                                    <p class="text-muted mb-3">{{ e.course.description|truncatewords:20 }}</p>
+
+                                    <div class="d-flex justify-content-between align-items-center mb-3">
+                                        {% if e.completed %}
+                                            <span class="badge-completed">
+                                                <i class="fas fa-check-circle me-1"></i>Completed
+                                            </span>
+                                        {% else %}
+                                            <span class="badge-progress">
+                                                <i class="fas fa-spinner me-1"></i>In Progress
+                                            </span>
+                                        {% endif %}
+                                        <small class="text-muted fw-semibold">{{ e.progress }}% Complete</small>
+                                    </div>
+
+                                    <!-- Progress Bar -->
+                                    <div class="progress mb-4">
+                                        <div class="progress-bar"
+                                            role="progressbar"
+                                            style="width: {{ e.progress }}%;"
+                                            aria-valuenow="{{ e.progress }}" 
+                                            aria-valuemin="0" 
+                                            aria-valuemax="100">
+                                        </div>
+                                    </div>
+
+                                    {% if not e.completed %}
+                                        <div class="text-center">
+                                            <a href="{% url 'mark_course_complete' e.id %}" 
+                                               class="btn btn-mark-complete">
+                                               <i class="fas fa-flag-checkered me-1"></i>Mark as Completed
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+
+            {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-book fa-3x text-muted mb-3"></i>
+                    <p class="text-muted fs-5">You are not enrolled in any courses yet.</p>
+                    <a href="{% url 'course_list' %}" class="btn btn-edit-profile mt-2">
+                        <i class="fas fa-search me-2"></i>Browse Courses
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

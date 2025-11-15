@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<style>
+    .login-card {
+        border: none;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        border: 2px solid var(--gold);
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    }
+    
+    .login-card .card-body {
+        padding: 3rem;
+    }
+    
+    .card-header {
+        background: linear-gradient(135deg, var(--black) 0%, var(--dark-gray) 100%);
+        color: var(--gold);
+        text-align: center;
+        padding: 2rem;
+        border-bottom: 3px solid var(--gold);
+        margin-bottom: 2rem;
+    }
+    
+    .form-label {
+        font-weight: 600;
+        color: var(--dark-gray);
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-control {
+        border: 2px solid #e3e6f0;
+        border-radius: 12px;
+        padding: 12px 16px;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: #ffffff;
+    }
+    
+    .form-control:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.1);
+        background: #ffffff;
+    }
+    
+    .btn-login {
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        border: none;
+        color: var(--black);
+        font-weight: 600;
+        padding: 14px 28px;
+        border-radius: 12px;
+        font-size: 1.1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+    
+    .btn-login:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        background: linear-gradient(135deg, #ffdf33, #d4af37);
+        color: var(--black);
+    }
+    
+    .login-link {
+        color: var(--dark-gold);
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+    
+    .login-link:hover {
+        color: var(--gold);
+        text-decoration: underline;
+    }
+    
+    .text-danger {
+        font-weight: 500;
+        font-size: 0.9rem;
+        margin-top: 0.25rem;
+    }
+    
+    .login-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, var(--gold), var(--dark-gold));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+    
+    .login-subtitle {
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+    
+    /* Animation */
+    @keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .login-card {
+        animation: slideInUp 0.6s ease-out;
+    }
+</style>
+
+<div class="row justify-content-center">
+    <div class="col-md-5">
+
+        <div class="card shadow-sm login-card">
+            <!-- Card Header -->
+            <div class="card-header">
+                <h1 class="login-title">Welcome Back</h1>
+                <p class="login-subtitle">Sign in to your account</p>
+            </div>
+
+            <div class="card-body p-4">
+
+                <form method="POST">
+                    {% csrf_token %}
+
+                    <!-- Username -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-user me-2"></i>Username
+                        </label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <small class="text-danger">{{ form.username.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-4">
+                        <label class="form-label">
+                            <i class="fas fa-lock me-2"></i>Password
+                        </label>
+                        {{ form.password }}
+                        {% if form.password.errors %}
+                            <small class="text-danger">{{ form.password.errors.0 }}</small>
+                        {% endif %}
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button class="btn btn-login py-3 fw-semibold">
+                            <i class="fas fa-sign-in-alt me-2"></i>Login to Account
+                        </button>
+                    </div>
+                </form>
+
+                <p class="text-center mt-4 mb-0 text-muted">
+                    Don't have an account?
+                    <a href="{% url 'register' %}" class="login-link">Create Account</a>
+                </p>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
