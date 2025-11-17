@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-c9nb1fkfc@)50i-6kssq3vo+)#fxcn#m$s&*==-53k72ga0xj%
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False # for deploymen
 
-ALLOWED_HOSTS = ['*'] # for deploymen
+ALLOWED_HOSTS = ['*', "studentmanagement-production-3293.up.railway.app"] # for deploymen
 
 STATIC_ROOT = BASE_DIR / 'staticfiles' # for deployment
 
@@ -161,3 +161,8 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "mrsalmanxzs@gmail.com"
 EMAIL_HOST_PASSWORD = "bywk dfqk sjkm tfqq"
 
+#for deployment 
+CSRF_TRUSTED_ORIGINS = [
+    "https://studentmanagement-production-3293.up.railway.app",
+    'https://*.railway.app',
+]
