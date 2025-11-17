@@ -23,9 +23,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c9nb1fkfc@)50i-6kssq3vo+)#fxcn#m$s&*==-53k72ga0xj%'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False # for deploymen
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*'] # for deploymen
+
+STATIC_ROOT = BASE_DIR / 'staticfiles' # for deployment
+
 
 
 # Application definition
@@ -75,16 +78,29 @@ WSGI_APPLICATION = 'student_mgmt_project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'student_management_db',
+#         'USER': 'postgres',
+#         'PASSWORD': 'salman1113',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
+
+import os
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'student_management_db',
-        'USER': 'postgres',
-        'PASSWORD': 'salman1113',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get("DATABASE_URL"),
+        conn_max_age=600,
+        ssl_require=False
+    )
 }
+
 
 
 # Password validation
@@ -143,5 +159,5 @@ EMAIL_HOST = "smtp.gmail.com"
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = "mrsalmanxzs@gmail.com"
-EMAIL_HOST_PASSWORD = ""
+EMAIL_HOST_PASSWORD = "bywk dfqk sjkm tfqq"
 
