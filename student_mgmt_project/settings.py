@@ -164,5 +164,4 @@ EMAIL_HOST_PASSWORD = "bywk dfqk sjkm tfqq"
 #for deployment 
 CSRF_TRUSTED_ORIGINS = [
     "https://studentmanagement-production-3293.up.railway.app",
-    'https://*.railway.app',
 ]
