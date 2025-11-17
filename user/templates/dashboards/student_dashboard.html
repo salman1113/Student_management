@@ -159,7 +159,6 @@
         margin-bottom: 0;
     }
     
-    /* Animation */
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -190,7 +189,6 @@
 
 <div class="container">
 
-    <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-5">
         <div>
             <h1 class="dashboard-title">Welcome, {{ request.user.first_name|default:request.user.username }}</h1>
@@ -201,7 +199,6 @@
         </a>
     </div>
 
-    <!-- PROFILE SECTION -->
     <div class="card shadow-sm profile-card mb-5">
         <div class="card-body p-4">
             <h3 class="card-title">
@@ -228,7 +225,6 @@
         </div>
     </div>
 
-    <!-- COURSES SECTION -->
     <div class="card shadow-sm dashboard-card">
         <div class="card-body p-4">
             <div class="d-flex justify-content-between align-items-center mb-4">
@@ -260,7 +256,6 @@
                                         <small class="text-muted fw-semibold">{{ e.progress }}% Complete</small>
                                     </div>
 
-                                    <!-- Progress Bar -->
                                     <div class="progress mb-4">
                                         <div class="progress-bar"
                                             role="progressbar"

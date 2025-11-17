@@ -226,7 +226,6 @@
 
 <div class="container">
     <div class="card assign-course-card">
-        <!-- Card Header -->
         <div class="card-header">
             <h1 class="assign-title">
                 {% if title %}{{ title }}{% else %}Assign Course{% endif %}
@@ -263,7 +262,6 @@
             <form method="POST">
                 {% csrf_token %}
 
-                <!-- Student Field -->
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-user-graduate me-2"></i>Student
@@ -275,7 +273,6 @@
                     <div class="form-text">Select the student to enroll in the course</div>
                 </div>
 
-                <!-- Course Field -->
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-book me-2"></i>Course
@@ -287,7 +284,6 @@
                     <div class="form-text">Choose the course to assign to the student</div>
                 </div>
 
-                <!-- Progress Field -->
                 <div class="form-group">
                     <label class="form-label">
                         <i class="fas fa-chart-line me-2"></i>Initial Progress (%)
@@ -299,7 +295,6 @@
                     <div class="form-text">Set the initial progress percentage (0-100)</div>
                 </div>
 
-                <!-- Completed Field -->
                 {% if form.completed %}
                 <div class="form-group">
                     <div class="form-check">
@@ -315,7 +310,6 @@
                 </div>
                 {% endif %}
 
-                <!-- Enrollment Date Field -->
                 {% if form.enrollment_date %}
                 <div class="form-group">
                     <label class="form-label">
@@ -329,7 +323,6 @@
                 </div>
                 {% endif %}
 
-                <!-- Action Buttons -->
                 <div class="action-buttons">
                     <button type="submit" class="btn btn-save">
                         <i class="fas fa-save me-2"></i>Assign Course
@@ -343,33 +336,5 @@
     </div>
 </div>
 
-<script>
-    // Add form control classes to all form fields
-    document.addEventListener('DOMContentLoaded', function() {
-        const textInputs = document.querySelectorAll('input[type="text"], input[type="number"], input[type="date"]');
-        const selects = document.querySelectorAll('select');
-        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        
-        textInputs.forEach(input => {
-            input.classList.add('form-control');
-        });
-        
-        selects.forEach(select => {
-            select.classList.add('form-select');
-        });
-        
-        checkboxes.forEach(checkbox => {
-            checkbox.classList.add('form-check-input');
-        });
-
-        // Add specific styling for progress input
-        const progressInput = document.querySelector('input[type="number"]');
-        if (progressInput) {
-            progressInput.min = 0;
-            progressInput.max = 100;
-            progressInput.step = 5;
-        }
-    });
-</script>
 
 {% endblock %}
