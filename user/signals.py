@@ -11,7 +11,7 @@ def create_student_profile_and_welcome(sender, instance, created, **kwargs):
         profile, _ = StudentProfile.objects.get_or_create(
             user=instance,
             defaults={
-                "roll_number": f"S{instance.id:04d}",   # FIXED
+                "roll_number": f"S{instance.id:04d}", 
             }
         )
 

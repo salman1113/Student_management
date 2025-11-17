@@ -211,7 +211,6 @@
 
 <div class="container">
     <div class="card delete-card">
-        <!-- Header -->
         <div class="card-header">
             <div class="warning-icon">
                 <i class="fas fa-exclamation-triangle"></i>
@@ -221,7 +220,6 @@
         </div>
 
         <div class="delete-content">
-            <!-- Warning Message -->
             <div class="warning-message">
                 <h4 class="warning-title">
                     <i class="fas fa-radiation-alt"></i>Irreversible Action
@@ -231,7 +229,6 @@
                 </p>
             </div>
 
-            <!-- Student Information -->
             <div class="student-info">
                 <h5 class="text-center mb-3" style="color: #dc3545;">
                     <i class="fas fa-user-graduate me-2"></i>Student to be Deleted
@@ -280,7 +277,6 @@
                 </div>
             </div>
 
-            <!-- Consequences Warning -->
             <div class="consequences-list">
                 <h6 class="fw-bold mb-3 text-center" style="color: #dc3545;">
                     <i class="fas fa-list-ul me-2"></i>What will be deleted:
@@ -294,7 +290,6 @@
                 </ul>
             </div>
 
-            <!-- Confirmation Form -->
             <form method="POST">
                 {% csrf_token %}
                 <div class="action-buttons">
@@ -307,7 +302,6 @@
                 </div>
             </form>
 
-            <!-- Additional Warning -->
             <div class="mt-4">
                 <small class="text-muted">
                     <i class="fas fa-info-circle me-1"></i>

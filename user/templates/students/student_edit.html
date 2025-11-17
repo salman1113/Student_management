@@ -210,7 +210,6 @@
 
 <div class="container">
     <div class="card edit-student-card">
-        <!-- Card Header -->
         <div class="card-header">
             <h1 class="edit-title">Edit Student</h1>
             <p class="edit-subtitle">Update student information and profile</p>
@@ -220,7 +219,6 @@
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <!-- User Information Section -->
                 <h4 class="section-title">
                     <i class="fas fa-user me-2"></i>User Information
                 </h4>
@@ -269,12 +267,10 @@
 
                 <hr class="my-4">
 
-                <!-- Profile Information Section -->
                 <h4 class="section-title">
                     <i class="fas fa-id-card me-2"></i>Profile Information
                 </h4>
 
-                <!-- Profile Picture Upload -->
                 <div class="profile-picture-section">
                     {% if profile_form.instance.profile_picture %}
                         <img src="{{ profile_form.instance.profile_picture.url }}" 
@@ -328,11 +324,9 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <!-- Additional fields can be added here -->
                     </div>
                 </div>
 
-                <!-- Additional Optional Fields -->
                 {% if profile_form.phone or profile_form.bio %}
                 <div class="row">
                     {% if profile_form.phone %}
@@ -376,7 +370,6 @@
 </div>
 
 <script>
-    // Enhance file input
     document.getElementById('id_profile_picture').addEventListener('change', function(e) {
         const fileName = e.target.files[0]?.name || 'No file chosen';
         const label = document.querySelector('.file-upload-label');
@@ -385,7 +378,6 @@
         }
     });
 
-    // Add form control classes to all form fields
     document.addEventListener('DOMContentLoaded', function() {
         const textInputs = document.querySelectorAll('input[type="text"], input[type="email"], input[type="number"]');
         const selects = document.querySelectorAll('select');

@@ -21,17 +21,9 @@ from .forms import (
 from .utils import generate_roll_number
 
 
-# =========================================================
-# HOME
-# =========================================================
-
 def home(request):
     return render(request, 'home.html')
 
-
-# =========================================================
-# REGISTER (AUTO PROFILE + AUTO ROLL NUMBER)
-# =========================================================
 
 def register(request):
     if request.method == "POST":
@@ -39,7 +31,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
 
-            # FIX: Safe profile creation
             profile, created = StudentProfile.objects.get_or_create(user=user)
 
             if created:
@@ -53,10 +44,6 @@ def register(request):
 
     return render(request, "register.html", {"form": form})
 
-
-# =========================================================
-# ADMIN DASHBOARD
-# =========================================================
 
 @login_required
 @admin_required
@@ -98,9 +85,6 @@ def admin_dashboard(request):
     })
 
 
-# =========================================================
-# ADMIN: STUDENT LIST
-# =========================================================
 
 @login_required
 @admin_required
@@ -127,10 +111,6 @@ def student_list(request):
     })
 
 
-# =========================================================
-# ADMIN: CREATE STUDENT (AUTO PROFILE + AUTO ROLL)
-# =========================================================
-
 @login_required
 @admin_required
 def student_create(request):
@@ -144,13 +124,11 @@ def student_create(request):
             user.set_password("student123")
             user.save()
 
-            # FIX: Safe get_or_create()
             profile, created = StudentProfile.objects.get_or_create(user=user)
 
             if created:
                 profile.roll_number = generate_roll_number()
 
-            # Apply admin form updates
             profile_form = StudentProfileAdminForm(request.POST, request.FILES, instance=profile)
             profile_form.save()
 
@@ -166,10 +144,6 @@ def student_create(request):
         "profile_form": profile_form,
     })
 
-
-# =========================================================
-# ADMIN: EDIT STUDENT
-# =========================================================
 
 @login_required
 @admin_required
@@ -199,10 +173,6 @@ def student_edit(request, pk):
     })
 
 
-# =========================================================
-# ADMIN: DELETE STUDENT
-# =========================================================
-
 @login_required
 @admin_required
 def student_delete(request, pk):
@@ -217,20 +187,12 @@ def student_delete(request, pk):
     return render(request, "students/student_delete_confirm.html", {"profile": profile})
 
 
-# =========================================================
-# ADMIN: STUDENT DETAIL
-# =========================================================
-
 @login_required
 @admin_required
 def student_detail(request, pk):
     profile = get_object_or_404(StudentProfile, pk=pk)
     return render(request, "students/student_detail.html", {"profile": profile})
 
-
-# =========================================================
-# STUDENT DASHBOARD
-# =========================================================
 
 @login_required
 @student_required
@@ -243,10 +205,6 @@ def student_dashboard(request):
         'enrollments': enrollments,
     })
 
-
-# =========================================================
-# STUDENT: EDIT OWN PROFILE
-# =========================================================
 
 @login_required
 @student_required
@@ -275,10 +233,6 @@ def edit_my_profile(request):
         'profile': profile,
     })
 
-
-# =========================================================
-# COURSE MANAGEMENT
-# =========================================================
 
 @login_required
 @admin_required
@@ -340,10 +294,6 @@ def course_delete(request, pk):
 
     return render(request, 'courses/course_delete_confirm.html', {'course': course})
 
-
-# =========================================================
-# ENROLLMENT
-# =========================================================
 
 @login_required
 @admin_required
@@ -413,10 +363,6 @@ def mark_course_complete(request, pk):
     messages.success(request, f"You completed {enrollment.course.title}!")
     return redirect("student_dashboard")
 
-
-# =========================================================
-# LOGIN & LOGOUT
-# =========================================================
 
 def login_view(request):
     if request.method == "POST":

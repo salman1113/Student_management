@@ -232,7 +232,6 @@
 
 <div class="container">
     <div class="card student-detail-card">
-        <!-- Header -->
         <div class="card-header">
             <h1 class="student-title">{{ profile.user.get_full_name|default:profile.user.username }}</h1>
             <p class="student-subtitle">Student Profile Details</p>
@@ -240,7 +239,6 @@
 
         <div class="profile-content">
             <div class="row">
-                <!-- Profile Image -->
                 <div class="col-md-4">
                     <div class="profile-image-section">
                         {% if profile.profile_picture %}
@@ -256,7 +254,6 @@
                     </div>
                 </div>
 
-                <!-- Student Information -->
                 <div class="col-md-8">
                     <div class="info-grid">
                         <div class="info-card">
@@ -304,7 +301,6 @@
                         </div>
                     </div>
 
-                    <!-- Additional Information Section (Optional) -->
                     {% if profile.bio or profile.phone %}
                     <div class="enrollment-section">
                         <h3 class="section-title">
@@ -343,7 +339,6 @@
                 </div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="action-buttons">
                 <a href="{% url 'student_edit' profile.id %}" class="btn-edit">
                     <i class="fas fa-edit me-1"></i>Edit Student

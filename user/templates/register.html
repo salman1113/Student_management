@@ -150,7 +150,6 @@
     <div class="col-md-6">
 
         <div class="card shadow-sm register-card">
-            <!-- Card Header -->
             <div class="card-header">
                 <h1 class="register-title">Join Us</h1>
                 <p class="register-subtitle">Create your student account</p>
@@ -158,7 +157,6 @@
 
             <div class="card-body p-4">
 
-                <!-- Password Requirements -->
                 <div class="password-requirements">
                     <h6><i class="fas fa-shield-alt me-2"></i>Password Requirements</h6>
                     <div class="requirement-item">
@@ -178,7 +176,6 @@
                 <form method="POST">
                     {% csrf_token %}
 
-                    <!-- Username -->
                     <div class="mb-4">
                         <label class="form-label">
                             <i class="fas fa-user me-2"></i>Username
@@ -189,7 +186,6 @@
                         {% endif %}
                     </div>
 
-                    <!-- Email -->
                     <div class="mb-4">
                         <label class="form-label">
                             <i class="fas fa-envelope me-2"></i>Email address
@@ -200,7 +196,6 @@
                         {% endif %}
                     </div>
 
-                    <!-- Password -->
                     <div class="mb-4">
                         <label class="form-label">
                             <i class="fas fa-lock me-2"></i>Password
@@ -211,7 +206,6 @@
                         {% endif %}
                     </div>
 
-                    <!-- Confirm Password -->
                     <div class="mb-4">
                         <label class="form-label">
                             <i class="fas fa-lock me-2"></i>Confirm Password
@@ -222,7 +216,6 @@
                         {% endif %}
                     </div>
 
-                    <!-- Submit -->
                     <div class="d-grid mt-4">
                         <button type="submit" class="btn btn-register py-3 fw-semibold">
                             <i class="fas fa-user-plus me-2"></i>Create Account

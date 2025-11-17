@@ -224,7 +224,6 @@
             <form method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
 
-                <!-- Basic Info Section -->
                 <h4 class="section-title">
                     <i class="fas fa-user me-2"></i>Basic Information
                 </h4>
@@ -273,12 +272,10 @@
 
                 <hr class="my-4">
 
-                <!-- Profile Section -->
                 <h4 class="section-title">
                     <i class="fas fa-id-card me-2"></i>Academic Profile
                 </h4>
 
-                <!-- Profile Picture -->
                 <div class="profile-picture-container">
                     {% if profile.profile_picture %}
                         <img src="{{ profile.profile_picture.url }}" alt="Current profile picture" class="current-profile-pic">
@@ -323,7 +320,6 @@
                     {% endif %}
                 </div>
 
-                <!-- Action Buttons -->
                 <div class="d-flex gap-3 mt-4">
                     <button type="submit" class="btn btn-save">
                         <i class="fas fa-save me-2"></i>Save Changes
@@ -340,7 +336,6 @@
 </div>
 
 <script>
-    // Enhance file input
     document.getElementById('id_profile_picture').addEventListener('change', function(e) {
         const fileName = e.target.files[0]?.name || 'No file chosen';
         const label = document.querySelector('.file-upload-label');

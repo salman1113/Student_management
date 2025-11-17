@@ -3,16 +3,13 @@ from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser, StudentProfile, Course, Enrollment
 
 
-# -------------------------
-# 1. REGISTRATION FORM
-# -------------------------
 class CustomUserRegisterForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)   
         for field in self.fields.values():
             field.widget.attrs.update({'class': 'form-control'})
 
@@ -31,27 +28,18 @@ class CustomLoginForm(AuthenticationForm):
             field.widget.attrs.update({'class': 'form-control'})
 
 
-# -------------------------
-# 2. ADMIN: Create + Edit Student User
-# -------------------------
 class AdminCreateStudentUserForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'first_name', 'last_name']
 
 
-# -------------------------
-# 3. ADMIN: Student Profile Form  (NO roll_number)
-# -------------------------
 class StudentProfileAdminForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
         fields = ['department', 'year_of_admission', 'profile_picture']
 
 
-# -------------------------
-# 4. STUDENT: Edit Own Profile  (NO roll_number)
-# -------------------------
 class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
@@ -61,27 +49,18 @@ class StudentProfileForm(forms.ModelForm):
         }
 
 
-# -------------------------
-# 5. STUDENT: Update Own User Info
-# -------------------------
 class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['first_name', 'last_name', 'email']
 
 
-# -------------------------
-# COURSE FORM
-# -------------------------
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
         fields = ['title', 'description']
 
 
-# -------------------------
-# ENROLLMENT FORM
-# -------------------------
 class EnrollmentForm(forms.ModelForm):
     class Meta:
         model = Enrollment
