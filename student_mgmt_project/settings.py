@@ -137,16 +137,13 @@ AUTH_USER_MODEL = 'user.CustomUser'
 LOGIN_URL = 'login'
 
 
-# dev-friendly email backend: console (shows mail in terminal)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-
 # For real SMTP in production, use env vars:
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.gmail.com')
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT', 587))
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'mrsalmanxzs@gmail.com')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', '')
-EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
-DEFAULT_FROM_EMAIL = os.environ.get('DEFAULT_FROM_EMAIL', 'mrsalmanxzs@gmail.com')
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = "mrsalmanxzs@gmail.com"
+EMAIL_HOST_PASSWORD = ""
 
