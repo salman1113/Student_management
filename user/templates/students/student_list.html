@@ -5,7 +5,7 @@
 <style>
     .students-header {
         display: flex;
-        justify-content: between;
+        justify-content: space-between;
         align-items: center;
         margin-bottom: 2rem;
         flex-wrap: wrap;
@@ -236,7 +236,6 @@
         color: #e3e6f0;
     }
     
-    /* Animation */
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -255,6 +254,43 @@
     .students-table tbody tr:nth-child(even) {
         animation-delay: 0.1s;
     }
+
+
+    @media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .students-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-form {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.6rem;
+    }
+
+    .students-table {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 600px;
+    }
+
+    .btn-action {
+        font-size: 0.75rem;
+        padding: 5px 8px;
+    }
+}
+
 </style>
 
 <div class="container">
@@ -282,7 +318,7 @@
                     <th>Name</th>
                     <th>Department</th>
                     <th>Email</th>
-                    <th width="220">Actions</th>
+                    <th width="220px">Actions</th>
                 </tr>
             </thead>
             <tbody>

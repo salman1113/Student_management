@@ -177,10 +177,46 @@
         color: #6c757d;
         transform: none;
     }
+
+
+    @media (max-width: 768px) {
+    .page-title {
+        font-size: 2rem;
+    }
+
+    .enrollments-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-form {
+        width: 100%;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-title {
+        font-size: 1.6rem;
+    }
+
+    .enrollments-table {
+        overflow-x: auto;
+    }
+
+    table {
+        min-width: 550px;
+    }
+
+    .btn-delete {
+        padding: 5px 10px;
+        font-size: 0.75rem;
+    }
+}
+
 </style>
 
 <div class="container">
-    <!-- Header Section -->
     <div class="enrollments-header">
         <h1 class="page-title">Enrollments</h1>
         
@@ -194,7 +230,6 @@
         </a>
     </div>
 
-    <!-- Enrollments Table -->
     <div class="enrollments-table">
         <table class="table">
             <thead>
@@ -202,7 +237,7 @@
                     <th>Student</th>
                     <th>Course</th>
                     <th>Status</th>
-                    <th width="120">Actions</th>
+                    <th style="min-width: 120px;">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -232,7 +267,6 @@
         </table>
     </div>
 
-    <!-- Pagination -->
     <nav>
         <ul class="pagination">
             {% if enrollments.has_previous %}
